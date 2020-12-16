@@ -13,7 +13,18 @@ using namespace std;
 #ifndef TestsPrototypes_h
 #define TestsPrototypes_h
 
-
+//class Project{
+//private:
+//    int numOfBugs;
+//    string projName;
+//public:
+//    Project(string name);
+//}
+//
+//Project::Project(string name){
+//    projName = name;
+//    numOfBugs = 0;
+//}
 
 
 
