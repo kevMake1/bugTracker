@@ -48,15 +48,7 @@ int main(int argc, const char * argv[]) {
                 "ADDRESS        CHAR(50), "
                 "SALARY         REAL );";
     
-    char *messageErr;
-    exit = sqlite3_exec(DB, sql.c_str(), NULL, 0, &messageErr);
-    
-    if(exit != SQLITE_OK){
-        cerr << "Error creating table" << endl;
-        sqlite3_free(messageErr);
-    } else {
-        cout << "table create Successfully" << endl;
-    }
+    createTable(DB, sql);
     
     //Insert
     char *messageErr2;
@@ -127,7 +119,7 @@ void openDatabase(sqlite3 *db){
     exit = sqlite3_open("test.db", &db);
     
     if(exit){
-        cerr << "Error opening DB" << sqlite3_errmsg(DB) << endl;
+        cerr << "Error opening DB" << sqlite3_errmsg(db) << endl;
         //return (-1);
     } else{
         cout << "Open Database Successfully" << endl;
@@ -138,7 +130,8 @@ void createTable(sqlite3 *db, string sql){
     
     //Create table
     char *messageErr;
-    exit = sqlite3_exec(DB, sql.c_str(), NULL, 0, &messageErr);
+    int exit = 0;
+    exit = sqlite3_exec(db, sql.c_str(), NULL, 0, &messageErr);
     
     if(exit != SQLITE_OK){
         cerr << "Error creating table" << endl;
