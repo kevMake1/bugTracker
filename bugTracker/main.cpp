@@ -20,6 +20,7 @@ using namespace std;
 vector<Project> projDatabase = {Project("test1"), Project("test2")};
 
 
+//MARK:- Global vars
 
 
 
@@ -27,22 +28,16 @@ vector<Project> projDatabase = {Project("test1"), Project("test2")};
 
 void showProjects();
 static int callback(void* data, int argc, char** argv, char** azColName);
+void openDatabase(sqlite3 *db);
+void createTable(sqlite3 *db, string sql);
 
 int main(int argc, const char * argv[]) {
 
     cout << "Bug Tracker\n\n\n";
     
-    //open database
     sqlite3 *DB;
-    int exit = 0;
-    exit = sqlite3_open("test.db", &DB);
     
-    if(exit){
-        cerr << "Error opening DB" << sqlite3_errmsg(DB) << endl;
-        return (-1);
-    } else{
-        cout << "Open Database Successfully" << endl;
-    }
+    openDatabase(DB);
     
     //Create table
     string sql = "CREATE TABLE PERSON("
@@ -110,6 +105,8 @@ void showProjects(){
     
 }
 
+//MARK:- Database functions
+
 //callback for SQLite
 static int callback(void* data, int argc, char** argv, char** azColName){
     
@@ -121,5 +118,33 @@ static int callback(void* data, int argc, char** argv, char** azColName){
     
     cout << endl;
     return 0;
+}
+
+void openDatabase(sqlite3 *db){
+    //open database
+    
+    int exit = 0;
+    exit = sqlite3_open("test.db", &db);
+    
+    if(exit){
+        cerr << "Error opening DB" << sqlite3_errmsg(DB) << endl;
+        //return (-1);
+    } else{
+        cout << "Open Database Successfully" << endl;
+    }
+}
+
+void createTable(sqlite3 *db, string sql){
+    
+    //Create table
+    char *messageErr;
+    exit = sqlite3_exec(DB, sql.c_str(), NULL, 0, &messageErr);
+    
+    if(exit != SQLITE_OK){
+        cerr << "Error creating table" << endl;
+        sqlite3_free(messageErr);
+    } else {
+        cout << "table create Successfully" << endl;
+    }
 }
 
