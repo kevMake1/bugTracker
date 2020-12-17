@@ -17,7 +17,11 @@ using namespace std;
 
 //MARK:- Temp
 
-vector<Project> projDatabase = { new Project("test1"), new Project("test2")};
+vector<Project> projDatabase = {Project("test1"), Project("test2")};
+
+void fillData(){
+    
+}
 
 
 
@@ -27,7 +31,7 @@ void showProjects();
 
 int main(int argc, const char * argv[]) {
 
-    cout << "Bug Tracker\n";
+    cout << "Bug Tracker\n\n\n";
     
     showProjects();
     
@@ -39,10 +43,15 @@ int main(int argc, const char * argv[]) {
 //MARK:- Functions
 
 void showProjects(){
-    cout << "Projects\t\t\t\t\t\t\t# of strings\n";
+    cout << "Projects\t\t\t\t\t\t\t# of bugs\n";
     cout << "-------------------------------------------------\n";
     
     //fetch projects:
-    cout << projDatabase[0].getNumOfBugs();
+    for(int i = 0; i < projDatabase.size(); i++){
+        cout << projDatabase[i].getProjName() << endl;
+    }
+    
     
 }
+
+

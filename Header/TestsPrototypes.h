@@ -21,7 +21,7 @@ private:
     string projName;
 public:
     Project(string name);
-    int getNumOfBugs();
+    int getNumOfBugs() const;
     string getProjName();
     void incrementNumOfBugs();
     void decrementNumOfBugs();
@@ -32,7 +32,7 @@ Project::Project(string name){
     numOfBugs = 0;
 }
 
-int Project::getNumOfBugs(){
+int Project::getNumOfBugs() const{
     return numOfBugs;
 }
 
