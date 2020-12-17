@@ -22,6 +22,7 @@ private:
 public:
     Project(string name);
     int getNumOfBugs();
+    string getProjName();
     void incrementNumOfBugs();
     void decrementNumOfBugs();
 };
@@ -33,6 +34,10 @@ Project::Project(string name){
 
 int Project::getNumOfBugs(){
     return numOfBugs;
+}
+
+string Project::getProjName(){
+    return projName;
 }
 
 void Project::incrementNumOfBugs(){
