@@ -13,17 +13,34 @@ using namespace std;
 #ifndef TestsPrototypes_h
 #define TestsPrototypes_h
 
+//MARK:- Project
+
 class Project{
 private:
     int numOfBugs;
     string projName;
 public:
     Project(string name);
+    int getNumOfBugs();
+    void incrementNumOfBugs();
+    void decrementNumOfBugs();
 };
 
 Project::Project(string name){
     projName = name;
     numOfBugs = 0;
+}
+
+int Project::getNumOfBugs(){
+    return numOfBugs;
+}
+
+void Project::incrementNumOfBugs(){
+    numOfBugs++;
+}
+
+void Project::decrementNumOfBugs(){
+    numOfBugs--;
 }
 
 
