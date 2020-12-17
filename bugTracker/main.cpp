@@ -7,6 +7,7 @@
 
 #include <stdio.h>
 #include <iostream>
+#include <vector>
 #include <string>
 #include <sqlite3.h>
 
@@ -16,7 +17,7 @@ using namespace std;
 
 //MARK:- Temp
 
-
+vector<Project> projDatabase = { new Project("test1"), new Project("test2")};
 
 
 
@@ -42,5 +43,6 @@ void showProjects(){
     cout << "-------------------------------------------------\n";
     
     //fetch projects:
+    cout << projDatabase[0].getNumOfBugs();
     
 }
