@@ -9,6 +9,9 @@
 #include <iostream>
 #include <vector>
 #include <string>
+
+#include "BugPrototype.h"
+
 using namespace std;
 
 #ifndef TestsPrototypes_h
@@ -20,13 +23,17 @@ class Project{
 private:
     int numOfBugs;
     string projName;
+    vector<Bug> bugs;
+    
 public:
     Project(string name);
     int getNumOfBugs() const;
     string getProjName();
     void changeProjName(string s);
-    void incrementNumOfBugs();
+    void addBug(string name);
+    void addBug(string name, string des);
     void decrementNumOfBugs();
+    void getBugs();
 };
 
 Project::Project(string name){
@@ -48,7 +55,12 @@ void Project::changeProjName(string s){
     cout << "\nName Changed to " << projName << endl;
 }
 
-void Project::incrementNumOfBugs(){
+void Project::addBug(string name){
+    bugs.push_back(Bug(name));
+    numOfBugs++;
+}
+void Project::addBug(string name, string des){
+    bugs.push_back(Bug(name, des));
     numOfBugs++;
 }
 
@@ -56,40 +68,11 @@ void Project::decrementNumOfBugs(){
     numOfBugs--;
 }
 
-//MARK:- Bugs
-
-class Bug{
-private:
-    string bugName;
-    string description;
+void Project::getBugs(){
     
-public:
-    Bug(string name);
-    string getBugName();
-    string getDescription();
-    void changeBugName(string s);
-    void setDescription(string s);
-    
-};
-
-Bug::Bug(string name){
-    bugName = name;
-}
-
-string Bug::getBugName(){
-    return bugName;
-}
-
-string Bug::getDescription(){
-    return description;
-}
-
-void Bug::changeBugName(string s){
-    bugName = s;
-}
-
-void Bug::setDescription(string s){
-    description = s;
+    for(int i = 0; i < numOfBugs; i++){
+        cout << bugs[i].getBugName() << "\t\t\t\t" << bugs[i].getDescription() << endl;
+    }
 }
 
 
