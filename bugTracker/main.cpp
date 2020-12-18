@@ -38,7 +38,7 @@ void displayBugs(sqlite3 *db, string projName);
 int main(int argc, const char * argv[]) {
     
     //title
-    cout << "Bug Tracker 1.0.0\n(Type 'help' for a list of commands\n";
+    cout << "Bug Tracker 1.0.0\n\n(Type 'help' for a list of commands)\n";
     
     //open database
     sqlite3 *DB;
@@ -166,7 +166,7 @@ void showCommandsForBugs(){
     << "choose {bug ID}: Dislays the choosen bug's description\n"
     << "delete {bug ID}: Deletes the bug.\n"
     << "change {ID} {what to edit} {option}\n"
-    << "\t-what to edit: bugname, description, fixed (options: y/n), solution\n"
+    << "\t-what to edit: bugname (comming soon), description (comming soon), fixed (options: y/n), solution (comming soon)\n"
     << "clear: Clears screen\n"
     << "show: Shows bug table\n"
     << "exit: Exits from project\n";
