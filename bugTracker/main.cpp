@@ -38,7 +38,7 @@ void displayBugs(sqlite3 *db, string projName);
 int main(int argc, const char * argv[]) {
     
     //title
-    cout << "Bug Tracker\n\n";
+    cout << "Bug Tracker 1.0.0\n(Type 'help' for a list of commands\n";
     
     //open database
     sqlite3 *DB;
@@ -152,24 +152,24 @@ void showBugsHeader(){
 
 void showCommands(){
     cout << "\nHere are some commands you can use:\n"
-    << "create {project name}\n"
-    << "choose {project name}\n"
-    << "delete {project name}\n"
-    << "clear\n"
-    << "show\n"
-    << "exit\n";
+    << "create {project name}: Creates new project\n"
+    << "choose {project name}: Selects project\n"
+    << "delete {project name}: Deletes project\n"
+    << "clear: clear screen\n"
+    << "show: Shows project table\n"
+    << "exit: Exits program\n";
 }
 
 void showCommandsForBugs(){
     cout << "\nHere are some commands you can use:\n"
-    << "create {bug name}\n"
-    << "choose {bug ID}\n"
-    << "delete {bug ID}\n"
+    << "create {bug name}: Creates new bug\n"
+    << "choose {bug ID}: Dislays the choosen bug's description\n"
+    << "delete {bug ID}: Deletes the bug.\n"
     << "change {ID} {what to edit} {option}\n"
     << "\t-what to edit: bugname, description, fixed (options: y/n), solution\n"
-    << "clear\n"
-    << "show\n"
-    << "exit\n";
+    << "clear: Clears screen\n"
+    << "show: Shows bug table\n"
+    << "exit: Exits from project\n";
 }
 
 void chosenProjectProgram(sqlite3 *db, string projName){
