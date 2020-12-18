@@ -23,6 +23,7 @@ using namespace std;
 void showHeader();
 void showBugsHeader();
 void showCommands();
+void showCommandsForBugs();
 void chosenProjectProgram(sqlite3 *db, string projName);
 static int callback(void* data, int argc, char** argv, char** azColName);
 static int callbackProjects(void* data, int argc, char** argv, char** azColName);
@@ -122,13 +123,6 @@ int main(int argc, const char * argv[]) {
     
     cout << "\n\n";
     
-    query = "SELECT * FROM PERSON;";
-    query = "SELECT BUGNAME FROM proj1 WHERE ID = 2;";
-    //displayFromTable(DB, query);
-    
-    //delete
-    //sql = "DELETE FROM PERSON WHERE ID = 2;";
-    
     sqlite3_close(DB);
     
 
@@ -166,6 +160,18 @@ void showCommands(){
     << "exit\n";
 }
 
+void showCommandsForBugs(){
+    cout << "\nHere are some commands you can use:\n"
+    << "create {bug name}\n"
+    << "choose {bug ID}\n"
+    << "delete {bug ID}\n"
+    << "change {ID} {what to edit} {option}\n"
+    << "\t-what to edit: bugname, description, fixed (options: y/n), solution\n"
+    << "clear\n"
+    << "show\n"
+    << "exit\n";
+}
+
 void chosenProjectProgram(sqlite3 *db, string projName){
     //show bugs
     displayBugs(db, projName);
@@ -190,7 +196,7 @@ void chosenProjectProgram(sqlite3 *db, string projName){
         //if there is one argument
         if(commands.size() == 1){
             if(commands[0] == "help"){     //help
-                showCommands();
+                showCommandsForBugs();
             } else if(commands[0] == "exit") {     //exit
                 break;
             } else if(commands[0] == "clear"){      //clear
@@ -302,7 +308,7 @@ static int callback(void* data, int argc, char** argv, char** azColName){
 static int callbackProjects(void* data, int argc, char** argv, char** azColName){
     
     const char separator = ' ';
-    const int nameWidth = 35, numWidth = 8;
+    const int nameWidth = 35;
     
     for(int i = 0; i < argc; i++){
         
