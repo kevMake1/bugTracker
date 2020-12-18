@@ -30,17 +30,18 @@ vector<Project> projDatabase = {Project("test1"), Project("test2")};
 void showHeader();
 static int callback(void* data, int argc, char** argv, char** azColName);
 static int callbackProjects(void* data, int argc, char** argv, char** azColName);
+void displayProjects(sqlite3 *db);
 void createProject(sqlite3 *db, string projectName);
 void insert(sqlite3 *db, string projectName, string bugName, string description, string fixed);
 void displayFromTable(sqlite3 *db, string query);
 
 int main(int argc, const char * argv[]) {
-
+    
+    //title
     cout << "Bug Tracker\n\n\n";
     
-    sqlite3 *DB;
     //open database
-    
+    sqlite3 *DB;
     int exit = 0;
     exit = sqlite3_open("test.db", &DB);
     
@@ -53,19 +54,9 @@ int main(int argc, const char * argv[]) {
     
     
     
-    //MARK:- test
-    //string testt = "SELECT name FROM test.sqlite_master WHERE type='table';";
-    string testt = "SELECT name FROM sqlite_master WHERE type='table';";
-    string t;
-    
-    showHeader();
-    sqlite3_exec(DB, testt.c_str(), callbackProjects, NULL, NULL);
-    
-    
-    
     //MARK:-
     
-
+    displayProjects(DB);
     
     
     string query = "SELECT * FROM PERSON;";
@@ -127,7 +118,13 @@ static int callbackProjects(void* data, int argc, char** argv, char** azColName)
     return 0;
 }
 
-
+void displayProjects(sqlite3 *db){
+    
+    string query = "SELECT name FROM sqlite_master WHERE type='table';";
+    
+    showHeader();
+    sqlite3_exec(db, query.c_str(), callbackProjects, NULL, NULL);
+}
 
 
 void createProject(sqlite3 *db, string projectName){
