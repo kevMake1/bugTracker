@@ -80,7 +80,8 @@ int main(int argc, const char * argv[]) {
             } else {
                 cerr << "\nError: Command is not recognized.\n";
             }
-        } else if(commands.size() == 2){
+        } //if there is two arguments
+        else if(commands.size() == 2){
             if(commands[0] == "create"){        //create
                 createProject(DB, commands[1]);
             } else if(commands[0] == "choose"){     //choose
