@@ -21,18 +21,22 @@ using namespace std;
 //MARK:- Main
 
 void showHeader();
+void showBugsHeader();
 void showCommands();
+void chosenProjectProgram(sqlite3 *db, string projName);
 static int callback(void* data, int argc, char** argv, char** azColName);
 static int callbackProjects(void* data, int argc, char** argv, char** azColName);
 void displayProjects(sqlite3 *db);
 void createProject(sqlite3 *db, string projectName);
-void insert(sqlite3 *db, string projectName, string bugName, string description, string fixed);
+void createBug(sqlite3 *db, string projectName, string bugName, string description, string fixed);
 void displayFromTable(sqlite3 *db, string query);
 
 int main(int argc, const char * argv[]) {
     
     //title
     cout << "Bug Tracker\n\n\n";
+    
+    showBugsHeader();
     
     //open database
     sqlite3 *DB;
@@ -43,7 +47,7 @@ int main(int argc, const char * argv[]) {
         cerr << "Error opening DB" << sqlite3_errmsg(DB) << endl;
         //return (-1);
     } else{
-        cout << "Open Database Successfully" << endl;
+        //cout << "Open Database Successfully" << endl;
     }
     
     
@@ -91,14 +95,15 @@ int main(int argc, const char * argv[]) {
             } else if(commands[0] == "choose"){     //choose
                 //choose project imp
                 //while loop to stay in that project
+                chosenProjectProgram(DB, commands[1]);
             } else if(commands[0] == "delete"){     //delete
                 //delete project imp
                 query = "DROP TABLE " + commands[1] + ";";
                 int err = sqlite3_exec(DB, query.c_str(), NULL, NULL, NULL);
                 if(err){
-                    cerr << "\nError: no project with the name of " + commands[1] + ".";
+                    cerr << "\nError: no project with the name of " + commands[1] + ".\n";
                 } else{
-                    cout << "\nThe project '" + commands[1] + "' was successfully deleted.";
+                    cout << "\nThe project '" + commands[1] + "' was successfully deleted.\n";
                 }
                 
             }
@@ -106,7 +111,7 @@ int main(int argc, const char * argv[]) {
                 cerr << "\nError: command '" + commands[0] + "' is not recognized\n";
             }
         } else {
-            cerr << "\nError: too much arguments";
+            cerr << "\nError: too much arguments\n";
         }
         
     }
@@ -141,12 +146,30 @@ void showHeader(){
     cout << endl;
 }
 
+void showBugsHeader(){
+    cout << left << setw(12) << setfill(' ') << "\nBug ID";
+    cout << left << setw(35) << setfill(' ') << "BugName";
+    cout << left << setw(11) << setfill(' ') << "Fixed?";
+    cout << endl;
+    cout << left << setw(50) << setfill('-') << "-";
+    cout << endl;
+}
+
 void showCommands(){
     cout << "\nHere are some commands you can use:\n"
     << "create {project name}\n"
     << "choose {project name}\n"
     << "delete {project name}\n"
-    << "clear\n";
+    << "clear\n"
+    << "show\n"
+    << "exit\n";
+}
+
+void chosenProjectProgram(sqlite3 *db, string projName){
+    //show bugs
+    //add bugs
+    //choose bug
+    //enter editing stage
 }
 
 //MARK:- Database functions
@@ -215,7 +238,7 @@ void createProject(sqlite3 *db, string projectName){
     }
 }
 
-void insert(sqlite3 *db, string projectName, string bugName, string description, string fixed){
+void createBug(sqlite3 *db, string projectName, string bugName, string description, string fixed){
     
     char *messageErr2;
     string sql = "INSERT INTO "+ projectName +"(BUGNAME, DESCRIPTION, FIXED) VALUES('"+ bugName +"', '"+ description +"', '"+ fixed +"');";
@@ -237,4 +260,5 @@ void displayFromTable(sqlite3 *db, string query){
     
     sqlite3_exec(db, query.c_str(), callback, NULL, NULL);
 }
+
 
