@@ -10,6 +10,7 @@
 #include <vector>
 #include <string>
 #include <iomanip>
+#include <sstream>
 #include <sqlite3.h>
 
 #include "../Header/TestsPrototypes.h"
@@ -28,6 +29,7 @@ vector<Project> projDatabase = {Project("test1"), Project("test2")};
 //MARK:- Main
 
 void showHeader();
+void showCommands();
 static int callback(void* data, int argc, char** argv, char** azColName);
 static int callbackProjects(void* data, int argc, char** argv, char** azColName);
 void displayProjects(sqlite3 *db);
@@ -43,7 +45,7 @@ int main(int argc, const char * argv[]) {
     //open database
     sqlite3 *DB;
     int exit = 0;
-    exit = sqlite3_open("test.db", &DB);
+    exit = sqlite3_open("BugTracker.db", &DB);
     
     if(exit){
         cerr << "Error opening DB" << sqlite3_errmsg(DB) << endl;
@@ -58,6 +60,53 @@ int main(int argc, const char * argv[]) {
     
     displayProjects(DB);
     
+    
+    string userInput;
+    
+    while(userInput != "exit"){
+        
+        cout << endl;
+        getline(cin, userInput);
+        
+        string buff;     // buffer string
+        stringstream ss(userInput);     // insert the string into a stream
+        vector<string> commands;
+        
+        while(ss >> buff){
+            commands.push_back(buff);
+        }
+        
+        
+        //if there is one argument
+        if(commands.size() == 1){
+            if(commands[0] == "help"){
+                showCommands();
+            } else if(commands[0] == "exit") {
+                continue;
+            } else {
+                cerr << "\nError: Command is not recognized.\n";
+            }
+        } else if(commands.size() == 2){
+            if(commands[0] == "create"){
+                createProject(DB, commands[1]);
+            } else if(commands[0] == "choose"){
+                //choose project imp
+                //while loop to stay in that project
+            } else if(commands[0] == "delete"){
+                //delete project imp
+            }
+            else {
+                cerr << "\nError: command not recognized\n";
+            }
+        } else {
+            cerr << "\n Error: too much arguments";
+        }
+        
+    }
+    
+    
+    
+    cout << "\n\n";
     
     string query = "SELECT * FROM PERSON;";
     query = "SELECT BUGNAME FROM proj1 WHERE ID = 2;";
@@ -82,8 +131,11 @@ void showHeader(){
     cout << endl;
     cout << left << setw(46) << setfill('-') << "-";
     cout << endl;
+}
 
-    
+void showCommands(){
+    cout << "\nHere are some commands you can use:\n"
+    << "create {project name}\n";
 }
 
 //MARK:- Database functions
