@@ -71,22 +71,22 @@ int main(int argc, const char * argv[]) {
         
         //if there is one argument
         if(commands.size() == 1){
-            if(commands[0] == "help"){
+            if(commands[0] == "help"){     //help
                 showCommands();
-            } else if(commands[0] == "exit") {
+            } else if(commands[0] == "exit") {     //exit
                 continue;
-            } else if(commands[0] == "clear"){
+            } else if(commands[0] == "clear"){      //clear
                 cout << "\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n";
             } else {
                 cerr << "\nError: Command is not recognized.\n";
             }
         } else if(commands.size() == 2){
-            if(commands[0] == "create"){
+            if(commands[0] == "create"){        //create
                 createProject(DB, commands[1]);
-            } else if(commands[0] == "choose"){
+            } else if(commands[0] == "choose"){     //choose
                 //choose project imp
                 //while loop to stay in that project
-            } else if(commands[0] == "delete"){
+            } else if(commands[0] == "delete"){     //delete
                 //delete project imp
             }
             else {
@@ -159,6 +159,7 @@ static int callbackProjects(void* data, int argc, char** argv, char** azColName)
     
     for(int i = 0; i < argc; i++){
         
+        if(strcmp(argv[i], "sqlite_sequence") == 0) continue; //to not display 'sqlite_sequence'
         cout << left << setw(nameWidth) << setfill(separator) << argv[i];
         cout << left << setw(numWidth) << setfill(separator) << argc;
         cout << endl;
