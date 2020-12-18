@@ -83,6 +83,8 @@ int main(int argc, const char * argv[]) {
                 showCommands();
             } else if(commands[0] == "exit") {
                 continue;
+            } else if(commands[0] == "clear"){
+                cout << "\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n";
             } else {
                 cerr << "\nError: Command is not recognized.\n";
             }
@@ -137,7 +139,8 @@ void showCommands(){
     cout << "\nHere are some commands you can use:\n"
     << "create {project name}\n"
     << "choose {project name}\n"
-    << "delete {project name}\n";
+    << "delete {project name}\n"
+    << "clear\n";
 }
 
 //MARK:- Database functions
