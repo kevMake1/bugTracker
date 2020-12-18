@@ -29,7 +29,7 @@ vector<Project> projDatabase = {Project("test1"), Project("test2")};
 void showProjects();
 static int callback(void* data, int argc, char** argv, char** azColName);
 void createProject(sqlite3 *db, string projectName);
-void insertDatabase(sqlite3 *db, string sql);
+void insert(sqlite3 *db, string projectName, string bugName, string description, string fixed);
 void displayFromTable(sqlite3 *db, string query);
 
 int main(int argc, const char * argv[]) {
@@ -62,12 +62,7 @@ int main(int argc, const char * argv[]) {
     //MARK:-
     
 
-    //Insert
-    //sql = "INSERT INTO PERSON VALUES(1, 'STEVE', 'GATES', 30, 'PALO ALTO', 1000.0);"
-
-    //sql = "INSERT INTO proj1(BUGNAME, DESCRIPTION, FIXED) VALUES( 'bug2', 'some desc', 0)";
-    //insertDatabase(DB, sql);
-    //insertDatabase(DB, sql);
+    
     
     string query = "SELECT * FROM PERSON;";
     query = "SELECT BUGNAME FROM proj1 WHERE ID = 2;";
@@ -125,7 +120,7 @@ void createProject(sqlite3 *db, string projectName){
                 "ID INTEGER PRIMARY KEY AUTOINCREMENT,"
                 "BUGNAME           TEXT    NOT NULL, "
                 "DESCRIPTION       TEXT, "
-                "FIXED             BOOL     NOT NULL, "
+                "FIXED             CHAR(1)     NOT NULL, "
                 "SOLUTION          TEXT ); ";
     
     //Create table
@@ -141,9 +136,12 @@ void createProject(sqlite3 *db, string projectName){
     }
 }
 
-void insertDatabase(sqlite3 *db, string sql){
+void insert(sqlite3 *db, string projectName, string bugName, string description, string fixed){
+    
     char *messageErr2;
+    string sql = "INSERT INTO "+ projectName +"(BUGNAME, DESCRIPTION, FIXED) VALUES('"+ bugName +"', '"+ description +"', '"+ fixed +"');";
 
+  
     
     int exit = 0;
     exit = sqlite3_exec(db, sql.c_str(), NULL, 0, &messageErr2);
