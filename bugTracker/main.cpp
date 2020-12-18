@@ -134,7 +134,7 @@ int main(int argc, const char * argv[]) {
 
 void showHeader(){
     
-    cout << left << setw(35) << setfill(' ') << "Projects";
+    cout << left << setw(35) << setfill(' ') << "\nProjects";
     cout << left << setw(11) << setfill(' ') << "# of bugs";
     cout << endl;
     cout << left << setw(46) << setfill('-') << "-";
