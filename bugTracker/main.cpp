@@ -9,6 +9,7 @@
 #include <iostream>
 #include <vector>
 #include <string>
+#include <iomanip>
 #include <sqlite3.h>
 
 #include "../Header/TestsPrototypes.h"
@@ -26,8 +27,9 @@ vector<Project> projDatabase = {Project("test1"), Project("test2")};
 
 //MARK:- Main
 
-void showProjects();
+void showHeader();
 static int callback(void* data, int argc, char** argv, char** azColName);
+static int callbackProjects(void* data, int argc, char** argv, char** azColName);
 void createProject(sqlite3 *db, string projectName);
 void insert(sqlite3 *db, string projectName, string bugName, string description, string fixed);
 void displayFromTable(sqlite3 *db, string query);
@@ -55,7 +57,9 @@ int main(int argc, const char * argv[]) {
     //string testt = "SELECT name FROM test.sqlite_master WHERE type='table';";
     string testt = "SELECT name FROM sqlite_master WHERE type='table';";
     string t;
-    sqlite3_exec(DB, testt.c_str(), callback, NULL, NULL);
+    
+    showHeader();
+    sqlite3_exec(DB, testt.c_str(), callbackProjects, NULL, NULL);
     
     
     
@@ -66,7 +70,7 @@ int main(int argc, const char * argv[]) {
     
     string query = "SELECT * FROM PERSON;";
     query = "SELECT BUGNAME FROM proj1 WHERE ID = 2;";
-    displayFromTable(DB, query);
+    //displayFromTable(DB, query);
     
     //delete
     //sql = "DELETE FROM PERSON WHERE ID = 2;";
@@ -80,20 +84,14 @@ int main(int argc, const char * argv[]) {
 
 //MARK:- Functions
 
-void showProjects(){
-    cout << "Projects\t\t\t\t\t\t\t# of bugs\n";
-    cout << "-------------------------------------------------\n";
+void showHeader(){
     
-    projDatabase[0].addBug("bug1", "This is the description for the bug");
-    
-    //fetch projects:
-    for(int i = 0; i < projDatabase.size(); i++){
-        cout << projDatabase[i].getProjName() << "\t\t\t\t" << projDatabase[i].getNumOfBugs() <<endl;
-    }
-    
-    
-    
-    projDatabase[0].getBugs();
+    cout << left << setw(35) << setfill(' ') << "Projects";
+    cout << left << setw(11) << setfill(' ') << "# of bugs";
+    cout << endl;
+    cout << left << setw(46) << setfill('-') << "-";
+    cout << endl;
+
     
 }
 
@@ -111,6 +109,24 @@ static int callback(void* data, int argc, char** argv, char** azColName){
     cout << endl;
     return 0;
 }
+
+//callback for getting projects
+static int callbackProjects(void* data, int argc, char** argv, char** azColName){
+    
+    const char separator = ' ';
+    const int nameWidth = 35, numWidth = 8;
+    
+    for(int i = 0; i < argc; i++){
+        
+        cout << left << setw(nameWidth) << setfill(separator) << argv[i];
+        cout << left << setw(numWidth) << setfill(separator) << argc;
+        cout << endl;
+        
+    }
+    
+    return 0;
+}
+
 
 
 
