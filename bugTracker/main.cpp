@@ -192,7 +192,7 @@ void chosenProjectProgram(sqlite3 *db, string projName){
             if(commands[0] == "help"){     //help
                 showCommands();
             } else if(commands[0] == "exit") {     //exit
-                continue;
+                break;
             } else if(commands[0] == "clear"){      //clear
                 cout << "\n\n\n\n\n\n\n\n\n"
                 << "\n\n\n\n\n\n\n\n\n\n\n"
@@ -253,7 +253,28 @@ void chosenProjectProgram(sqlite3 *db, string projName){
             else {
                 cerr << "\nError: command '" + commands[0] + "' is not recognized\n";
             }
-        } else {
+        } else if(commands.size() == 4){ //four arguments
+            if(commands[0] == "change"){    //change {ID} {command} {option}
+                if(commands[2] == "fixed"){ //change fixed
+                    
+                    if(commands[3] == "y" || commands[3] == "n"){
+                        string query = "UPDATE " + projName + " SET FIXED = '" + commands[3] + "' WHERE ID = " + commands[1] + ";";
+                        sqlite3_exec(db, query.c_str(), NULL, NULL, NULL);
+                        cout << "\nchange sucessful.\n";
+                    } else{
+                        cout << "\nError: input '" + commands[3] + "' not valid, try again.";
+                    }
+                    
+                } else if(commands[2] == "des"){ //change description
+                    
+                } else if(commands[2] == "sol"){   //change solution
+                    
+                } else if(commands[2] == "bugname"){    //change bug name
+                    
+                }
+            }
+        }
+        else {
             cerr << "\nError: too much arguments\n";
         }
         
