@@ -76,7 +76,11 @@ int main(int argc, const char * argv[]) {
             } else if(commands[0] == "exit") {     //exit
                 continue;
             } else if(commands[0] == "clear"){      //clear
-                cout << "\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n";
+                cout << "\n\n\n\n\n\n\n\n\n"
+                << "\n\n\n\n\n\n\n\n\n\n\n"
+                << "\n\n\n\n\n\n\n\n\n\n";
+            } else if(commands[0] == "show"){   //show
+                
             } else {
                 cerr << "\nError: Command is not recognized.\n";
             }
@@ -169,6 +173,8 @@ static int callbackProjects(void* data, int argc, char** argv, char** azColName)
     
     return 0;
 }
+
+
 
 void displayProjects(sqlite3 *db){
     
