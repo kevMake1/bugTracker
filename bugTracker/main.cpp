@@ -220,14 +220,14 @@ void chosenProjectProgram(sqlite3 *db, string projName){
                 }
                 
                 string description;
-                string line;
+                //string line;
+                string buf;
                 
                 cout << "\nDescription:\n";
-                while(getline(cin, line) && !line.empty()){
-
-                    description += line;
-                    
-                }
+                
+                getline(cin, buf);
+                
+                getline(cin, description);
                 
                 createBug(db, projName, commands[1], description, fixed);
                 
@@ -244,9 +244,9 @@ void chosenProjectProgram(sqlite3 *db, string projName){
                 string query = "DELETE FROM " + projName + " WHERE ID = " + commands[1] + ";";
                 int err = sqlite3_exec(db, query.c_str(), NULL, NULL, NULL);
                 if(err){
-                    cerr << "\nError: no project with the name of " + commands[1] + ".\n";
+                    cerr << "\nError: no bug with the Bug ID of " + commands[1] + ".\n";
                 } else{
-                    cout << "\nThe project '" + commands[1] + "' was successfully deleted.\n";
+                    cout << "\nThe bug with BugID: '" + commands[1] + "' was successfully deleted.\n";
                 }
                 
             }
@@ -287,7 +287,7 @@ static int callbackProjects(void* data, int argc, char** argv, char** azColName)
         
         if(strcmp(argv[i], "sqlite_sequence") == 0) continue; //to not display 'sqlite_sequence'
         cout << left << setw(nameWidth) << setfill(separator) << argv[i];
-        cout << left << setw(numWidth) << setfill(separator) << argc;
+        //cout << left << setw(numWidth) << setfill(separator) << argc;
         cout << endl;
         
     }
