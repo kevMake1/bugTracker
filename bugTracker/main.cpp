@@ -135,7 +135,9 @@ void showHeader(){
 
 void showCommands(){
     cout << "\nHere are some commands you can use:\n"
-    << "create {project name}\n";
+    << "create {project name}\n"
+    << "choose {project name}\n"
+    << "delete {project name}\n";
 }
 
 //MARK:- Database functions
