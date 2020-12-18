@@ -36,9 +36,7 @@ void displayBugs(sqlite3 *db, string projName);
 int main(int argc, const char * argv[]) {
     
     //title
-    cout << "Bug Tracker\n\n\n";
-    
-    showBugsHeader();
+    cout << "Bug Tracker\n\n";
     
     //open database
     sqlite3 *DB;
@@ -153,7 +151,7 @@ void showBugsHeader(){
     cout << left << setw(35) << setfill(' ') << "BugName";
     cout << left << setw(11) << setfill(' ') << "Fixed?";
     cout << endl;
-    cout << left << setw(50) << setfill('-') << "-";
+    cout << left << setw(55) << setfill('-') << "-";
     cout << endl;
 }
 
@@ -169,6 +167,8 @@ void showCommands(){
 
 void chosenProjectProgram(sqlite3 *db, string projName){
     //show bugs
+    displayBugs(db, projName);
+    
     //add bugs
     string userInput;
     
@@ -197,23 +197,49 @@ void chosenProjectProgram(sqlite3 *db, string projName){
                 << "\n\n\n\n\n\n\n\n\n\n\n"
                 << "\n\n\n\n\n\n\n\n\n\n";
             } else if(commands[0] == "show"){   //show
-                displayProjects(DB);
+                displayBugs(db, projName);
             } else {
                 cerr << "\nError: command '" + commands[0] + "' is not recognized\n";
             }
         } //if there is two arguments
         else if(commands.size() == 2){
             if(commands[0] == "create"){        //create
-                createProject(DB, commands[1]);
+                string fixed;
+                
+                bool done = false;
+                
+                while(!done){
+                    cout << "\nIs it fixed (y/n)?: ";
+                    cin >> fixed;
+                    if(fixed == "y" || fixed == "n"){
+                        done = true;
+                    } else{
+                        cout << "\nError: input '" + fixed + "' not valid, try again.";
+                    }
+                }
+                
+                string description;
+                string line;
+                
+                cout << "\nDescription:\n";
+                while(getline(cin, line) && !line.empty()){
+
+                    description += line;
+                    
+                }
+                
+                createBug(db, projName, commands[1], description, fixed);
+                
+                
             } else if(commands[0] == "choose"){     //choose
                 //choose project imp
                 //while loop to stay in that project
-                chosenProjectProgram(DB, commands[1]);
+                //chosenProjectProgram(DB, commands[1]);
             } else if(commands[0] == "delete"){     //delete
                 //delete project imp
-                query = "DROP TABLE " + commands[1] + ";";
-                int err = sqlite3_exec(DB, query.c_str(), NULL, NULL, NULL);
-                if(err){
+                //query = "DROP TABLE " + commands[1] + ";";
+                //int err = sqlite3_exec(DB, query.c_str(), NULL, NULL, NULL);
+                if(0){
                     cerr << "\nError: no project with the name of " + commands[1] + ".\n";
                 } else{
                     cout << "\nThe project '" + commands[1] + "' was successfully deleted.\n";
@@ -269,16 +295,12 @@ static int callbackProjects(void* data, int argc, char** argv, char** azColName)
 static int callbackBugs(void* data, int argc, char** argv, char** azColName){
     
     const char separator = ' ';
-    const int nameWidth = 35, numWidth = 8;
     
-    for(int i = 0; i < argc; i++){
-        
-        //if(strcmp(argv[i], "sqlite_sequence") == 0) continue; //to not display 'sqlite_sequence'
-        cout << left << setw(nameWidth) << setfill(separator) << argv[i];
-        cout << left << setw(numWidth) << setfill(separator) << argc;
-        cout << endl;
-        
-    }
+    cout << left << setw(11) << setfill(separator) << argv[0];
+    cout << left << setw(35) << setfill(separator) << argv[1];
+    cout << left << setw(3) << setfill(separator) << argv[3];
+    
+    cout << endl;
     
     return 0;
 }
@@ -319,6 +341,8 @@ void createProject(sqlite3 *db, string projectName){
 void createBug(sqlite3 *db, string projectName, string bugName, string description, string fixed){
     
     char *messageErr2;
+    
+
     string sql = "INSERT INTO "+ projectName +"(BUGNAME, DESCRIPTION, FIXED) VALUES('"+ bugName +"', '"+ description +"', '"+ fixed +"');";
 
   
@@ -330,7 +354,7 @@ void createBug(sqlite3 *db, string projectName, string bugName, string descripti
         cerr << "Error inserting" << endl;
         sqlite3_free(messageErr2);
     } else {
-        cout << "Insert Successfully" << endl;
+        cout << "\nCreate Bug Successfully" << endl;
     }
 }
 
