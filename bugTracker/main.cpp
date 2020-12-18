@@ -52,7 +52,7 @@ int main(int argc, const char * argv[]) {
     
     displayProjects(DB);
     
-    
+    string query;
     string userInput;
     
     while(userInput != "exit"){
@@ -80,9 +80,9 @@ int main(int argc, const char * argv[]) {
                 << "\n\n\n\n\n\n\n\n\n\n\n"
                 << "\n\n\n\n\n\n\n\n\n\n";
             } else if(commands[0] == "show"){   //show
-                
+                displayProjects(DB);
             } else {
-                cerr << "\nError: Command is not recognized.\n";
+                cerr << "\nError: command '" + commands[0] + "' is not recognized\n";
             }
         } //if there is two arguments
         else if(commands.size() == 2){
@@ -93,12 +93,20 @@ int main(int argc, const char * argv[]) {
                 //while loop to stay in that project
             } else if(commands[0] == "delete"){     //delete
                 //delete project imp
+                query = "DROP TABLE " + commands[1] + ";";
+                int err = sqlite3_exec(DB, query.c_str(), NULL, NULL, NULL);
+                if(err){
+                    cerr << "\nError: no project with the name of " + commands[1] + ".";
+                } else{
+                    cout << "\nThe project '" + commands[1] + "' was successfully deleted.";
+                }
+                
             }
             else {
-                cerr << "\nError: command not recognized\n";
+                cerr << "\nError: command '" + commands[0] + "' is not recognized\n";
             }
         } else {
-            cerr << "\n Error: too much arguments";
+            cerr << "\nError: too much arguments";
         }
         
     }
@@ -108,7 +116,7 @@ int main(int argc, const char * argv[]) {
     
     cout << "\n\n";
     
-    string query = "SELECT * FROM PERSON;";
+    query = "SELECT * FROM PERSON;";
     query = "SELECT BUGNAME FROM proj1 WHERE ID = 2;";
     //displayFromTable(DB, query);
     
@@ -203,7 +211,7 @@ void createProject(sqlite3 *db, string projectName){
         cerr << "Error creating table" << endl;
         sqlite3_free(messageErr);
     } else {
-        cout << "table create Successfully" << endl;
+        cout << "Project create successfully" << endl;
     }
 }
 
