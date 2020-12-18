@@ -27,6 +27,7 @@ void chosenProjectProgram(sqlite3 *db, string projName);
 static int callback(void* data, int argc, char** argv, char** azColName);
 static int callbackProjects(void* data, int argc, char** argv, char** azColName);
 static int callbackBugs(void* data, int argc, char** argv, char** azColName);
+static int callbackBugDescrpiton(void* data, int argc, char** argv, char** azColName);
 void displayProjects(sqlite3 *db);
 void createProject(sqlite3 *db, string projectName);
 void createBug(sqlite3 *db, string projectName, string bugName, string description, string fixed);
@@ -232,14 +233,17 @@ void chosenProjectProgram(sqlite3 *db, string projName){
                 
                 
             } else if(commands[0] == "choose"){     //choose
-                //choose project imp
-                //while loop to stay in that project
-                //chosenProjectProgram(DB, commands[1]);
+                //choose bug imp
+                string query = "SELECT DESCRIPTION FROM " + projName + " WHERE ID = " + commands[1] + ";";
+                
+                cout << endl;
+                sqlite3_exec(db, query.c_str(), callbackBugDescrpiton, NULL, NULL);
+                
             } else if(commands[0] == "delete"){     //delete
-                //delete project imp
-                //query = "DROP TABLE " + commands[1] + ";";
-                //int err = sqlite3_exec(DB, query.c_str(), NULL, NULL, NULL);
-                if(0){
+                //delete bug imp
+                string query = "DELETE FROM " + projName + " WHERE ID = " + commands[1] + ";";
+                int err = sqlite3_exec(db, query.c_str(), NULL, NULL, NULL);
+                if(err){
                     cerr << "\nError: no project with the name of " + commands[1] + ".\n";
                 } else{
                     cout << "\nThe project '" + commands[1] + "' was successfully deleted.\n";
@@ -305,6 +309,18 @@ static int callbackBugs(void* data, int argc, char** argv, char** azColName){
     return 0;
 }
 
+    
+//callback for getting bug description
+static int callbackBugDescrpiton(void* data, int argc, char** argv, char** azColName){
+    
+    cout << argv[0];
+    
+    cout << endl;
+        
+    return 0;
+}
+
+    
 
 
 void displayProjects(sqlite3 *db){
