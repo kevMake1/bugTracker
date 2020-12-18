@@ -17,14 +17,6 @@
 
 using namespace std;
 
-//MARK:- Temp
-
-vector<Project> projDatabase = {Project("test1"), Project("test2")};
-
-
-//MARK:- Global vars
-
-
 
 //MARK:- Main
 
@@ -107,6 +99,7 @@ int main(int argc, const char * argv[]) {
     }
     
     
+    //MARK:-
     
     cout << "\n\n";
     
